@@ -4,7 +4,7 @@
 
 > **Portfolio context:** These are educational attack simulations, **not confirmed real-world breaches**. This portfolio describes the investigation documented by the project team. Screenshots are excerpts of the team's existing evidence; detections and conclusions should not be interpreted as independently verified by a third party.
 
-**[Read the 5-page executive report (PDF)](report/ExecutivePortfolioReport.pdf)**  ·  **[View the evidence index](evidence/EVIDENCE_INDEX.md)**  ·  **[Publishing instructions](PUBLISHING_GUIDE.md)**
+**[Read the 5-page executive report (PDF)](report/ExecutivePortfolioReport.pdf)**  ·
 
 ## At a glance
 
@@ -13,27 +13,25 @@ As part of a collaborative incident response project, our team investigated two 
 | Case study | Investigated activity | Systems and impact | Main evidence sources |
 |---|---|---|---|
 | [01 · Web defacement and lateral movement](CASE_STUDY_01_Web_Defacement.md) | Valid-credential SSH/RDP access, elevated privileges, SSH persistence, Apache/IIS modification | UBUNTU20, WIN16, WIN12; two web properties defaced | **Suricata, Wazuh, Velociraptor** |
-| [02 · AD CS and NTLM relay](CASE_STUDY_02_ADCS_NTLM_Relay.md) | Network discovery, coerced authentication and certificate abuse as reconstructed in the investigation | Active Directory/domain authentication and certificate enrollment environment | **Suricata, Wazuh, Velociraptor, Windows events** |
+| [02 · Active Directory Cetficiation Services (AD CS) and NTLM relay](CASE_STUDY_02_ADCS_NTLM_Relay.md) | Network discovery, coerced authentication and certificate abuse as reconstructed in the investigation | Active Directory/domain authentication and certificate enrollment environment | **Suricata, Wazuh, Velociraptor, Windows events** |
 
 ## Selected findings
 
 ### Case 01: Website defacement and lateral movement
 
-The April 12 investigation connected suspicious network scanning with an SSH logon to **UBUNTU20**, sudo/root access, SSH configuration changes, and Apache website modification. Separate RDP activity involved **WIN16**, where a new account and altered security policy were documented, followed by movement to **WIN12** and IIS website modification. SFTP activity was observed, but **successful data exfiltration and its contents were not confirmed**.
+The April 12 investigation connected suspicious network scanning with an SSH logon to **UBUNTU20** system, sudo/root access, SSH configuration changes, and Apache website modification. Separate RDP activity involved **WIN16** system, where a new account and altered security policy were documented, followed by movement to **WIN12** system and Internet Information System website modification. SFTP activity was observed, but **successful data exfiltration and its contents were not confirmed**.
 
 ![Evidence of SSH persistence in the web-defacement case](evidence/web-defacement/03-ssh-persistence.png)
 
-*SSH server changes and authorized-key activity, extracted from the group's Lab 7 checkoff presentation.*
 
 [View full investigation →](CASE_STUDY_01_Web_Defacement.md)
 
 ### Case 02: AD CS / NTLM relay
 
-The April 30 investigation documented suspicious HTTP and SMB/NTLM activity and an attack narrative involving **PetitPotam**, **NTLM relay**, and **Active Directory Certificate Services (AD CS)** web enrollment. The team reconstructed certificate-based authentication abuse, credential exposure, and subsequent discovery activity. Some steps in this chain are **reported in the written timeline rather than demonstrated by an included standalone screenshot**.
+The April 30 investigation documented suspicious HTTP and SMB/NTLM activity and an attack narrative involving **PetitPotam** exploit, **NTLM relay**, and **Active Directory Certificate Services (AD CS)** web enrollment. The team reconstructed certificate-based authentication abuse, credential exposure, and subsequent discovery activity.
 
 ![Wazuh NTLM authentication evidence](evidence/adcs-ntlm-relay/02-ntlm-authentication.png)
 
-*Wazuh NTLM-related authentication fields from the original team's final incident report.*
 
 [View full investigation →](CASE_STUDY_02_ADCS_NTLM_Relay.md)
 
@@ -48,40 +46,27 @@ The April 30 investigation documented suspicious HTTP and SMB/NTLM activity and 
 | Adversary analysis | Timeline reconstruction, indicators of compromise, account misuse, lateral movement, mapping to **MITRE ATT&CK** |
 | Communications | Executive summaries, impact assessment, security recommendations, evidence documentation |
 
-## Browse the portfolio
-
-```text
-CNIT-470-Incident-Response-Investigations/
-├── README.md
-├── CASE_STUDY_01_Web_Defacement.md
-├── CASE_STUDY_02_ADCS_NTLM_Relay.md
-├── evidence/
-│   ├── EVIDENCE_INDEX.md
-│   ├── web-defacement/            # 8 selected screenshots
-│   └── adcs-ntlm-relay/           # 5 selected screenshots
-├── timelines/
-│   ├── web_defacement_2026-04-12.csv
-│   └── adcs_ntlm_2026-04-30.csv
-└── report/
-    ├── EXECUTIVE_OVERVIEW.md
-    ├── ExecutivePortfolioReport.pdf
-    └── SOURCE_AND_SCOPE_NOTES.md
-```
 
 ## Key takeaways
 
-The common theme across both investigations was **identity and access risk**: valid credentials, excessive access, and trust relationships can help an attacker move deeper into an environment. Our analysis prioritized stronger authentication, privilege restrictions, detection of unusual access and administrative changes, protection of AD CS, and more complete logging.
+These incident response investigations provided valuable hands-on experience in analyzing cybersecurity attacks, identifying security weaknesses, and understanding how attackers compromise different systems. The following lessons were learned from investigating both the web defacement and Active Directory attacks.
+
+1. Importance of Strong Authentication and Access Controls
+
+Both investigations demonstrated how weaknesses in authentication can put an entire network at risk. In the web defacement incident, the attacker used valid credentials to access Linux and Windows systems through SSH and RDP. In the Active Directory incident, weaknesses in NTLM authentication and certificate services created opportunities for credential abuse. These findings highlighted the importance of implementing multi-factor authentication (MFA), enforcing strong password policies, and restricting unnecessary remote access.
+
+2. Privilege Escalation and Lateral Movement
+
+One of the most important lessons was understanding how attackers can move beyond their initial point of entry. During the web defacement investigation, the attacker gained root privileges on an Ubuntu server, modified SSH configurations, and later accessed Windows systems using administrative credentials. The attacker also created an unauthorized account and modified security policies. This demonstrated why organizations should follow the principle of least privilege, limit administrative access, and implement network segmentation to reduce lateral movement.
+
+3. Importance of Security Monitoring and Log Analysis
+
+The investigations demonstrated the value of collecting and analyzing security logs from multiple sources. Tools such as Wazuh, Suricata, and Velociraptor helped identify suspicious network activity, unusual authentication events, privilege escalation, and system modifications. By comparing evidence from these tools, the team reconstructed attack timelines and better understood the sequence of events. This experience reinforced the importance of continuous monitoring, centralized logging, and having enough visibility to detect suspicious behavior.
+
+5. Following a Structured Incident Response Process
+
+Both investigations reinforced the importance of following an organized incident response process rather than investigating suspicious events without a clear plan. The team examined the scope of each incident, analyzed available evidence, identified affected systems, reconstructed attack timelines, and developed containment and recovery recommendations. Mapping attacker behavior to the MITRE ATT&CK framework also helped organize the findings and explain the techniques used. This approach made the investigations easier to document and communicate.
 
 ## Project contribution and attribution
 
-This work was completed **collaboratively by CNIT 470 Group 27**. The provided files do not attribute each investigative task to an individual; this repository therefore describes team results rather than claiming personal authorship of specific screenshots, detections, or remediation actions. Students may add a short, accurate **My Contributions** section to describe their individual work before publishing. The screenshots are reproduced for portfolio documentation from the provided team files. No original course assignment handout is included.
-
-## Important boundaries
-
-- Educational / controlled lab setting; not a production security incident.
-- **Possible exfiltration** in Case 01 is not treated as proven data theft.
-- **Response recommendations** are not presented as implemented controls without validation.
-- Case 02's report states recovery outcomes, but no independent recovery verification artifacts were supplied.
-- A separate **Fall 2026 Lab 4 instruction sheet** was supplied as context and was **not** used to claim completed work, deploy Timesketch, or perform UAC/KAPE triage.
-
-**Suggested GitHub topics:** `incident-response` · `cybersecurity` · `digital-forensics` · `threat-hunting` · `wazuh` · `suricata` · `velociraptor` · `active-directory` · `mitre-attack`
+This work was completed **collaboratively by CNIT 470 Group 27**. This repository therefore describes team results rather than claiming personal authorship of specific screenshots, detections, or remediation actions
