@@ -38,7 +38,6 @@ flowchart LR
     G -->|IIS changes| H[Second web defacement]
 ```
 
-*The diagram summarizes the sequence presented in the team evidence. It does not claim that UBUNTU20 served as the RDP pivot to WIN16.*
 
 ## Reconstructed investigation timeline
 
@@ -56,7 +55,7 @@ flowchart LR
 | 07:56:23 | Lateral movement | RDP pivot from WIN16 to WIN12 | Reach into second Windows host |
 | ~07:58–07:59 | Impact | IIS-related process and web-content activity | Windows website defacement |
 
-*Times are reconstructed from Lab 7 checkoff slides, pp. 3–8. The table rounds or groups selected timestamps for readability; see CSV for the more precise entries.*
+
 
 ## Key evidence
 
@@ -128,11 +127,6 @@ The playbook recommends restricting access to impacted machines while preserving
 
 **High-priority improvements:** Enforce MFA on SSH and RDP where supported, rotate potentially exposed credentials, restrict administrative privileges, review SSH keys and server configurations, prevent unnecessary east-west RDP/SMB/SSH access, improve Nmap/SSH/RDP detection, and patch exposed systems.
 
-## Limits and reliability
 
-- The team hypothesized insider or former-insider knowledge due to apparent valid-credential use; **attacker identity was not confirmed**.
-- The material documents attacker behavior and **response plans**; it does not provide conclusive before-and-after validation for all proposed recovery actions.
-- The checkoff slide timeline provides minute/second-level reconstruction. Source log screenshots should be consulted for event-level precision.
 - This was a team-based, simulated incident in a course environment.
 
-**Original supporting files supplied for this case:** `CNIT 470 Lab 7 - Checkoff Slides.pptx` (evidence/timeline), `Updated Lab 7 IR playbook.docx` (analysis/response recommendations).
